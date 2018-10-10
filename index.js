@@ -54,8 +54,6 @@ server.post('/webhook', line.middleware(line_config), (req, res, next) => {
                 }));
             }
 
-            console.log(event.message.text);
-/*
             events_processed.push(
                 session_client.detectIntent({
                     session: session_client.sessionPath(process.env.GOOGLE_PROJECT_ID, event.source.userId),
@@ -66,13 +64,16 @@ server.post('/webhook', line.middleware(line_config), (req, res, next) => {
                         }
                     }
                 }).then((responses) => {
+
+                    console.log(responses[0]);
+
                     if (responses[0].queryResult && responses[0].queryResult.action == "handle-check-device-status"){
                         let message_text
                         //if (responses[0].queryResult.parameters.fields.menu.stringValue){
                         //    message_text = `毎度！${responses[0].queryResult.parameters.fields.menu.stringValue}ね。どちらにお届けしましょ？`;
                         //} else {
                         //    message_text = `毎度！ご注文は？`;
-                            message_text = `おお。働き者だね。`;
+                            message_text = "おお。働き者だね。";
                         //}
                         return bot.replyMessage(event.replyToken, {
                             type: "text",
@@ -81,7 +82,7 @@ server.post('/webhook', line.middleware(line_config), (req, res, next) => {
                     }
                 })
             );
-*/
+
         }
     });
 
