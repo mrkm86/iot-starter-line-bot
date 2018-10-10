@@ -54,6 +54,8 @@ server.post('/webhook', line.middleware(line_config), (req, res, next) => {
                 }));
             }
 
+            console.log(event.message.text);
+
             events_processed.push(
                 session_client.detectIntent({
                     session: session_client.sessionPath(process.env.GOOGLE_PROJECT_ID, event.source.userId),
