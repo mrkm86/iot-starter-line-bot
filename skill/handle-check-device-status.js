@@ -14,13 +14,12 @@ module.exports = class SkillHandleCheckDeviceStatus {
                         actions: [
                             {type: "message", label: "コボッタ", text: "1-1"},
                             {type: "message", label: "コボッタ(DS)", text: "1-2"},
-                            {type: "message", label: "電気BOX", text: "2"},
-                            {type: "message", label: "ハンディターミナル", text: "3"}
+                            {type: "message", label: "電気BOX", text: "2"}
                         ]
                     }
                 },
                 parser: async (value, bot, event, context) => {
-                    if (["1-1", "1-2", "2", "3"].includes(value)) {
+                    if (["1-1", "1-2", "2"].includes(value)) {
                         return value;
                     }
 
@@ -35,22 +34,6 @@ module.exports = class SkillHandleCheckDeviceStatus {
                     });
                 }
             }
-            /*,
-            address: {
-                message_to_confirm: {
-                    type: "text",
-                    text: "どちらにお届けしましょっ？"
-                },
-                parser: async (value, bot, event, context) => {
-                    if (typeof value == "string"){
-                        return value;
-                    } else if (typeof value == "object" && value.type == "location"){
-                        return value.address;
-                    }
-
-                    throw new Error();
-                }
-            }*/
         }
     }
 
