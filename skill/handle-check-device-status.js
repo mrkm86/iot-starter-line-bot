@@ -72,6 +72,7 @@ module.exports = class SkillHandleCheckDeviceStatus {
                             }
                             //該当あり
                             else {
+                                
                                 console.log("----------------------------------------------------------------------");
                                 console.log("response[0].t_active->" + response[0].t_active);
                                 console.log("----------------------------------------------------------------------");
@@ -93,7 +94,7 @@ module.exports = class SkillHandleCheckDeviceStatus {
                                 });
                                 bot.queue({
                                     type: "text",
-                                    text: "${context.confirmed.device}は${context.confirmed.status}ロボ。"
+                                    text: `${context.confirmed.device}は${context.confirmed.status}ロボ。`
                                 });
 
                                 //正常終了
