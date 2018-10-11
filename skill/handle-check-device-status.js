@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = class SkillHandleDeliveryOrder {
+module.exports = class SkillHandleCheckDeviceStatus {
 
     constructor(){
         this.required_parameter = {
