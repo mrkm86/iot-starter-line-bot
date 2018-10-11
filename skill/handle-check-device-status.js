@@ -29,11 +29,23 @@ module.exports = class SkillHandleCheckDeviceStatus {
                     }
                 },
                 parser: (value, bot, event, context, resolve, reject) => {
+                    if (["コボッタ", "コボッタ(DS)", "電気BOX", "ハンディターミナル"].includes(value)) {
+                        return resolve(value);
+                    }
+                    return reject();
+                },
+                reaction: (error, value, bot, event, context, resolve, reject) => {
+                    
+                    if (error) {
 
-                    console.log("----------------------------------------------------------------------");
-                    console.log("value->" + value);
-                    console.log("----------------------------------------------------------------------");
-                    if (value != "") {
+                        if (value != "") {
+                            bot.change_message_to_confirm("device", {
+                                "type": "text",
+                                "text": `${value}は知らない設備ロボ`
+                            })
+                        }
+                    }
+                    else {
 
                         bot.queue({
                             type: "text",
@@ -78,12 +90,17 @@ module.exports = class SkillHandleCheckDeviceStatus {
                                     context.confirmed.t_active = response[0].t_active;
                                     if(context.confirmed.t_active == 0)
                                     {
-                                        context.confirmed.status = "停止中";
+                                        context.confirmed.status = "【停止中】";
                                     }
                                     else
                                     {
-                                        context.confirmed.status = "稼働中";
+                                        context.confirmed.status = "【稼働中】";
                                     }
+
+                                    bot.queue({
+                                        type: "text",
+                                        text: `お待たせロボ。\n${context.confirmed.device}は${context.confirmed.status}ロボ。\nよかったらまた訊くロボ。`
+                                    });
 
                                     return resolve(value);
                                 }
@@ -91,15 +108,6 @@ module.exports = class SkillHandleCheckDeviceStatus {
                             }
                         );
                     }
-                    return reject();
-                },
-                reaction: (error, value, bot, event, context, resolve, reject) => {
-                    if (error) return resolve();
-
-                    bot.queue({
-                        type: "text",
-                        text: `お待たせロボ。\n${context.confirmed.device}は${context.confirmed.status}ロボ。\nよかったらまた訊くロボ。`
-                    });
                     return resolve();
                 }
             }
