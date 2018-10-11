@@ -18,20 +18,20 @@ module.exports = class SkillHandleDeliveryOrder {
                         ]
                     }
                 },
-                parser: async (value, bot, event, context) => {
+                parser: (value, bot, event, context, resolve, reject) => {
                     if (["松", "竹", "梅"].includes(value)) {
-                        return value;
+                        return resolve(value);
                     }
-
-                    throw new Error();
+                    return reject();
                 },
-                reaction: async (error, value, bot, event, context) => {
-                    if (error) return;
+                reaction: (error, value, bot, event, context, resolve, reject) => {
+                    if (error) return resolve();
 
                     bot.queue({
                         type: "text",
                         text: `あいよっ！${value}ね。`
                     });
+                    return resolve();
                 }
             },
             address: {
@@ -39,23 +39,25 @@ module.exports = class SkillHandleDeliveryOrder {
                     type: "text",
                     text: "どちらにお届けしましょっ？"
                 },
-                parser: async (value, bot, event, context) => {
+                parser: (value, bot, event, context, resolve, reject) => {
                     if (typeof value == "string"){
-                        return value;
+                        return resolve(value);
                     } else if (typeof value == "object" && value.type == "location"){
-                        return value.address;
+                        return resolve(value.address);
+                    } else {
+                        return reject();
                     }
-
-                    throw new Error();
                 }
             }
         }
     }
 
-    async finish(bot, event, context){
-        await bot.reply({
+    finish(bot, event, context, resolve, reject){
+        return bot.reply({
             type: "text",
             text: `あいよっ。じゃあ${context.confirmed.menu}を30分後くらいに${context.confirmed.address}にお届けしますわ。おおきに。`
+        }).then((response) => {
+            return resolve(response);
         });
     }
 
