@@ -19,7 +19,7 @@ module.exports = class SkillHandleCheckDeviceStatus {
                     }
                 },
                 parser: async (value, bot, event, context) => {
-                    if (["1-1", "1-2", "2"].includes(value)) {
+                    if (["コボッタ", "コボッタ(DS)", "電気BOX"].includes(value)) {
                         return value;
                     }
 
