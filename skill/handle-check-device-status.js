@@ -1,8 +1,16 @@
+//おまじない
 "use strict";
+
+//module.exports->ほかのモジュールから読み込み可能
 
 module.exports = class SkillHandleCheckDeviceStatus {
 
-    constructor(){
+	//コンストラクタ
+	constructor(bot, event){
+
+		//情報が集約しおわったら（finish）文脈をクリア
+	    this.clear_context_on_finish = true;
+        
         this.required_parameter = {
             device: {
                 message_to_confirm: {
@@ -10,17 +18,17 @@ module.exports = class SkillHandleCheckDeviceStatus {
                     altText: "どの設備について知りたいロボか？",
                     template: {
                         type: "buttons",
-                        text: "設備を選ぶ",
+                        text: "どの設備について知りたいロボか？",
                         actions: [
-                            {type: "message", label: "コボッタ", text: "1-1"},
-                            {type: "message", label: "コボッタ(DS)", text: "1-2"},
-                            {type: "message", label: "電気BOX", text: "2"},
-                            {type: "message", label: "ハンディターミナル", text: "3"},
+                            {type: "message", label: "コボッタ", text: "コボッタ"},
+                            {type: "message", label: "コボッタ(DS)", text: "コボッタ(DS)"},
+                            {type: "message", label: "電気BOX", text: "電気BOX"},
+                            {type: "message", label: "ハンディターミナル", text: "ハンディターミナル"},
                         ]
                     }
                 },
                 parser: (value, bot, event, context, resolve, reject) => {
-                    if (["1-1", "1-2", "2", "3"].includes(value)) {
+                    if (["コボッタ", "コボッタ(DS)", "電気BOX", "ハンディターミナル"].includes(value)) {
                         return resolve(value);
                     }
                     return reject();
@@ -41,7 +49,7 @@ module.exports = class SkillHandleCheckDeviceStatus {
     async finish(bot, event, context){
         await bot.reply({
             type: "text",
-            text: `オーケイ。じゃあ${context.confirmed.device}はこんな感じでした。`
+            text: `お待たせロボ。${context.confirmed.device}は稼働中ロボ。\nよかったらまた訊くロボ。`
         });
     }
 
