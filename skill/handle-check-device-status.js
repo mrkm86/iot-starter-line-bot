@@ -30,87 +30,72 @@ module.exports = class SkillHandleCheckDeviceStatus {
                 },
                 parser: (value, bot, event, context, resolve, reject) => {
                     if (["コボッタ", "コボッタ(DS)", "電気BOX", "ハンディターミナル"].includes(value)) {
-                        console.log("parser　オッケーです");
                         return resolve(value);
                     }
                     return reject();
                 },
                 reaction: (error, value, bot, event, context, resolve, reject) => {
-                    
-                    if (error) {
-                        console.log("reaction　errorです");
+                    if (error) return resolve();
 
-                        if (value != "") {
-                            bot.change_message_to_confirm("device", {
-                                "type": "text",
-                                "text": `${value}は知らない設備ロボ`
-                            })
-                        }
+                    bot.queue({
+                        type: "text",
+                        text: `オーケイ。${value}のようすを見てくるロボ。`
+                    });
+
+                    //設備コードに変換する
+                    switch(value)
+                    {
+                        case "コボッタ":
+                            context.confirmed.strDeviceId = "LINE001-01";
+                            break;
+                        case "コボッタ(DS)":
+                            context.confirmed.strDeviceId = "LINE001-02";
+                            break;
+                        case "電気BOX":
+                            context.confirmed.strDeviceId = "LINE002";
+                            break;
+                        case "ハンディターミナル":
+                            context.confirmed.strDeviceId = "LINE003";
+                            break;
                     }
-                    else {
+                    console.log("----------------------------------------------------------------------");
+                    console.log("context.confirmed.strDeviceId->" + context.confirmed.strDeviceId);
+                    console.log("----------------------------------------------------------------------");
 
-                        bot.queue({
-                            type: "text",
-                            text: `オーケイ。${value}のようすを見てくるロボ。`
-                        });
+                    //データベースに入力チェック
+                    return oracle.get_device_status(context.confirmed.strDeviceId).then(
+                        (response) => {
 
-                        //設備コードに変換する
-                        switch(value)
-                        {
-                            case "コボッタ":
-                                context.confirmed.strDeviceId = "LINE001-01";
-                                break;
-                            case "コボッタ(DS)":
-                                context.confirmed.strDeviceId = "LINE001-02";
-                                break;
-                            case "電気BOX":
-                                context.confirmed.strDeviceId = "LINE002";
-                                break;
-                            case "ハンディターミナル":
-                                context.confirmed.strDeviceId = "LINE003";
-                                break;
-                        }
-                        console.log("----------------------------------------------------------------------");
-                        console.log("context.confirmed.strDeviceId->" + context.confirmed.strDeviceId);
-                        console.log("----------------------------------------------------------------------");
-
-                        //データベースに入力チェック
-                        return oracle.get_device_status(context.confirmed.strDeviceId).then(
-                            (response) => {
-
-                                //該当なし
-                                if (response.length == 0) {
-                                    return reject();
-                                }
-                                //該当あり
-                                else {
-                                    console.log("----------------------------------------------------------------------");
-                                    console.log("response[0].t_active->" + response[0].t_active);
-                                    console.log("----------------------------------------------------------------------");
-
-                                    //１行を入れておく
-                                    context.confirmed.t_active = response[0].t_active;
-                                    if(context.confirmed.t_active == 0)
-                                    {
-                                        context.confirmed.status = "【停止中】";
-                                    }
-                                    else
-                                    {
-                                        context.confirmed.status = "【稼働中】";
-                                    }
-
-                                    bot.queue({
-                                        type: "text",
-                                        text: `お待たせロボ。\n${context.confirmed.device}は${context.confirmed.status}ロボ。\nよかったらまた訊くロボ。`
-                                    });
-
-                                    return resolve(value);
-                                }
-
+                            //該当なし
+                            if (response.length == 0) {
+                                return reject();
                             }
-                        );
-                    }
-                    return resolve();
+                            //該当あり
+                            else {
+                                console.log("----------------------------------------------------------------------");
+                                console.log("response[0].t_active->" + response[0].t_active);
+                                console.log("----------------------------------------------------------------------");
+
+                                //１行を入れておく
+                                context.confirmed.t_active = response[0].t_active;
+                                if(context.confirmed.t_active == 0)
+                                {
+                                    context.confirmed.status = "【停止中】";
+                                }
+                                else
+                                {
+                                    context.confirmed.status = "【稼働中】";
+                                }
+
+                                bot.queue({
+                                    type: "text",
+                                    text: `お待たせロボ。\n${context.confirmed.device}は${context.confirmed.status}ロボ。\nよかったらまた訊くロボ。`
+                                });
+
+                                return resolve(value);
+                            }
+                        }
+                    );
                 }
             }
         }
