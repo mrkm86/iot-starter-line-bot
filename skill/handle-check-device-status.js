@@ -30,7 +30,7 @@ module.exports = class SkillHandleCheckDeviceStatus {
 
                     bot.queue({
                         type: "text",
-                        text: `あいよっ！${value}ね。`
+                        text: `オーケイ。${value}ロボね。見てくるロボ。`
                     });
                     return resolve();
                 }
