@@ -89,9 +89,14 @@ module.exports = class SkillHandleCheckDeviceStatus {
 
                                 bot.queue({
                                     type: "text",
-                                    text: `お待たせロボ。\n${context.confirmed.device}は${context.confirmed.status}ロボ。\nよかったらまた訊くロボ。`
+                                    text: "お待たせロボ"
+                                });
+                                bot.queue({
+                                    type: "text",
+                                    text: "${context.confirmed.device}は${context.confirmed.status}ロボ。"
                                 });
 
+                                //正常終了
                                 return resolve(value);
                             }
                         }
