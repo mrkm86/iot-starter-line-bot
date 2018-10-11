@@ -7,31 +7,31 @@ module.exports = class SkillHandleCheckDeviceStatus {
             device: {
                 message_to_confirm: {
                     type: "template",
-                    altText: "どの設備ラインが気になりますかね？",
+                    altText: "出前のメニューは松、竹、梅の3種類になっとりますけどどちらにしましょっ？",
                     template: {
                         type: "buttons",
-                        text: "設備ライン",
+                        text: "ご注文は？",
                         actions: [
-                            {type: "message", label: "コボッタ", text: "1-1"},
-                            {type: "message", label: "コボッタ(DS)", text: "1-2"},
-                            {type: "message", label: "電気BOX", text: "2"}
+                            {type: "message", label: "松", text: "1-1"},
+                            {type: "message", label: "竹", text: "1-2"},
+                            {type: "message", label: "梅", text: "2"}
                         ]
                     }
                 },
-                parser: async (value, bot, event, context) => {
-                    if (["コボッタ", "コボッタ(DS)", "電気BOX"].includes(value)) {
-                        return value;
+                parser: (value, bot, event, context, resolve, reject) => {
+                    if (["1-1", "1-2", "2"].includes(value)) {
+                        return resolve(value);
                     }
-
-                    throw new Error();
+                    return reject();
                 },
-                reaction: async (error, value, bot, event, context) => {
-                    if (error) return;
+                reaction: (error, value, bot, event, context, resolve, reject) => {
+                    if (error) return resolve();
 
                     bot.queue({
                         type: "text",
-                        text: `${value}ですね。ちょっと見てきます。おまちを。`
+                        text: `あいよっ！${value}ね。`
                     });
+                    return resolve();
                 }
             }
         }
