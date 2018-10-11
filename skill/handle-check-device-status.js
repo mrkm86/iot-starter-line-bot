@@ -23,13 +23,13 @@ module.exports = class SkillHandleCheckDeviceStatus {
                         actions: [
                             {type: "message", label: "コボッタ", text: "コボッタ"},
                             {type: "message", label: "コボッタ(DS)", text: "コボッタ(DS)"},
-                            {type: "message", label: "電気BOX", text: "電気BOX"},
+                            {type: "message", label: "PLC", text: "PLC"},
                             {type: "message", label: "ハンディターミナル", text: "ハンディターミナル"},
                         ]
                     }
                 },
                 parser: (value, bot, event, context, resolve, reject) => {
-                    if (["コボッタ", "コボッタ(DS)", "電気BOX", "ハンディターミナル"].includes(value)) {
+                    if (["コボッタ", "コボッタ(DS)", "PLC", "ハンディターミナル"].includes(value)) {
                         return resolve(value);
                     }
                     return reject();
@@ -51,7 +51,7 @@ module.exports = class SkillHandleCheckDeviceStatus {
                         case "コボッタ(DS)":
                             context.confirmed.strDeviceId = "LINE001-02";
                             break;
-                        case "電気BOX":
+                        case "PLC":
                             context.confirmed.strDeviceId = "LINE002";
                             break;
                         case "ハンディターミナル":
@@ -72,7 +72,7 @@ module.exports = class SkillHandleCheckDeviceStatus {
                             }
                             //該当あり
                             else {
-                                
+
                                 console.log("----------------------------------------------------------------------");
                                 console.log("response[0].t_active->" + response[0].t_active);
                                 console.log("----------------------------------------------------------------------");
