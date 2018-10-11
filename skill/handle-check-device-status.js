@@ -7,19 +7,20 @@ module.exports = class SkillHandleCheckDeviceStatus {
             device: {
                 message_to_confirm: {
                     type: "template",
-                    altText: "出前のメニューは松、竹、梅の3種類になっとりますけどどちらにしましょっ？",
+                    altText: "どの設備について知りたいロボか？",
                     template: {
                         type: "buttons",
-                        text: "ご注文は？",
+                        text: "設備を選ぶ",
                         actions: [
-                            {type: "message", label: "松", text: "1-1"},
-                            {type: "message", label: "竹", text: "1-2"},
-                            {type: "message", label: "梅", text: "2"}
+                            {type: "message", label: "コボッタ", text: "1-1"},
+                            {type: "message", label: "コボッタ(DS)", text: "1-2"},
+                            {type: "message", label: "電気BOX", text: "2"},
+                            {type: "message", label: "ハンディターミナル", text: "3"},
                         ]
                     }
                 },
                 parser: (value, bot, event, context, resolve, reject) => {
-                    if (["1-1", "1-2", "2"].includes(value)) {
+                    if (["1-1", "1-2", "2", "3"].includes(value)) {
                         return resolve(value);
                     }
                     return reject();
