@@ -6,8 +6,7 @@ let request = require("request");
 Promise = require("bluebird");
 const URL_BASE = process.env.ORACLEAPEXURL 
                 + "/" + process.env.WORKSPACENAME
-                + "/" + process.env.RESTSERVICENAME
-                + process.env.ORACLE_ACCESS_TOKEN;
+                + "/" + process.env.RESTSERVICENAME;
 console.log("----------------------------------------------------------------------");
 console.log(URL_BASE);
 console.log("----------------------------------------------------------------------");

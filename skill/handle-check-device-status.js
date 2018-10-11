@@ -30,6 +30,9 @@ module.exports = class SkillHandleCheckDeviceStatus {
                 },
                 parser: (value, bot, event, context, resolve, reject) => {
 
+                    console.log("----------------------------------------------------------------------");
+                    console.log("value->" + value);
+                    console.log("----------------------------------------------------------------------");
                     if (value != "") {
 
                         bot.queue({
