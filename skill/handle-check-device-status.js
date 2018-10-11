@@ -30,6 +30,7 @@ module.exports = class SkillHandleCheckDeviceStatus {
                 },
                 parser: (value, bot, event, context, resolve, reject) => {
                     if (["コボッタ", "コボッタ(DS)", "電気BOX", "ハンディターミナル"].includes(value)) {
+                        console.log("parser　オッケーです");
                         return resolve(value);
                     }
                     return reject();
@@ -37,6 +38,7 @@ module.exports = class SkillHandleCheckDeviceStatus {
                 reaction: (error, value, bot, event, context, resolve, reject) => {
                     
                     if (error) {
+                        console.log("reaction　errorです");
 
                         if (value != "") {
                             bot.change_message_to_confirm("device", {
