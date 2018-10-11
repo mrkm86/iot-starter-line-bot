@@ -4,7 +4,7 @@ module.exports = class SkillHandleDeliveryOrder {
 
     constructor(){
         this.required_parameter = {
-            device: {
+            menu: {
                 message_to_confirm: {
                     type: "template",
                     altText: "出前のメニューは松、竹、梅の3種類になっとりますけどどちらにしましょっ？",
