@@ -35,4 +35,24 @@ module.exports = class ServiceOracle {
             }
         );
     }
+
+    //設備の生産数を取得する
+    static get_device_status(strDeviceId) {
+        let url = URL_BASE + "/" + "get_device_production?T_DEVICE_ID=" + strDeviceId;
+        let headers = {
+            "Content-Type": "application/json"
+        }
+        return request.getAsync({
+            url: url,
+            headers: headers,
+            json: true
+        }).then(
+            (response) => {
+                if (response.statusCode != 200) {
+                    return Promise.reject(new Error("ServiceOracle.get_device_production() failed."));
+                }
+                return response.body.items;
+            }
+        );
+    }
 }
