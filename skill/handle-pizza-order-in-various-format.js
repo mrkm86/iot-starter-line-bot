@@ -11,7 +11,7 @@ module.exports = class SkillCompileMessage {
                     type: "text",
                     text: "ご注文のピザは？"
                 }
-            },
+            },/*
             line_template_button_postback: { // Will be quick reply in facebook.
                 message_to_confirm: {
                     type: "template",
@@ -38,7 +38,7 @@ module.exports = class SkillCompileMessage {
                     }
                     throw new Error();
                 }
-            },
+            },*/
             line_template_button_message: { // Will be quick reply in facebook.
                 message_to_confirm: {
                     type: "template",
