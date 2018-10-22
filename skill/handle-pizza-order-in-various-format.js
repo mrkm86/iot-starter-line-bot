@@ -146,6 +146,13 @@ module.exports = class SkillCompileMessage {
                     }
                 },
                 parser: (postback, bot, event, context) => {
+                    console.log("----------------------------------------------------------------------");
+                    console.log("postback");
+                    console.log(typeof postback);
+                    console.log(postback.data);
+                    console.log(bot.type);
+                    console.log("----------------------------------------------------------------------");
+
                     if (typeof postback == "string"){
                         return postback;
                     }
