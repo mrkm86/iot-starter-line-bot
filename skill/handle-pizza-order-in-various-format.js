@@ -147,6 +147,9 @@ module.exports = class SkillCompileMessage {
                 },
                 parser: (postback, bot, event, context) => {
                     if (typeof postback == "string"){
+                        return postback;
+                    }
+                    if (bot.type == "line"){
 
                         bot.queue([
                             {
@@ -155,9 +158,6 @@ module.exports = class SkillCompileMessage {
                             }
                         ])
 
-                        return postback;
-                    }
-                    if (bot.type == "line"){
                         return postback.data;
                     } else if (bot.type == "facebook"){
                         return postback.payload;
