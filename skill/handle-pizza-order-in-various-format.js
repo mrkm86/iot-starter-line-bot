@@ -147,6 +147,14 @@ module.exports = class SkillCompileMessage {
                 },
                 parser: (postback, bot, event, context) => {
                     if (typeof postback == "string"){
+
+                        bot.queue([
+                            {
+                                "type": "text",
+                                "text": `${postback.data}ですね。かしこまりました。`
+                            }
+                        ])
+
                         return postback;
                     }
                     if (bot.type == "line"){
