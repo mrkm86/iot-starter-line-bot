@@ -158,14 +158,14 @@ module.exports = class SkillCompileMessage {
                     }
                     if (bot.type == "line"){
 
-                        bot.queue([
-                            {
-                                "type": "text",
-                                "text": `${postback.data}ですね。かしこまりました。`
-                            }
-                        ])
+                        bot.queue({
+                            type: "text",
+                            text: "お待たせロボ"
+                        });
 
-                        return postback.data;
+                        //正常終了
+                        return resolve(value);
+                        //return postback.data;
                     } else if (bot.type == "facebook"){
                         return postback.payload;
                     }
