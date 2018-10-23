@@ -1,7 +1,7 @@
 "use strict";
 
 const debug = require("debug")("bot-express:skill");
-const hue = require('../sample_service/hue');
+//const hue = require('../sample_service/hue');
 Promise = require('bluebird');
 
 const COLOR_MAPPINGS = [
@@ -78,7 +78,7 @@ module.exports = class SkillChangeLightColor {
 
     // IFTTT経由でHueのカラーを変更する
     async finish(bot, event, context){
-        await hue.change_color(context.confirmed.color);
+        //await hue.change_color(context.confirmed.color);
 
         let message = {
             text: "了解しましたー。"
